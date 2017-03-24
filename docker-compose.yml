@@ -3,13 +3,17 @@ services:
     compstech_api:
         build: ./php/
         ports:
-         - "80:80"
+            - "80:80"
         volumes:
-         - ./app/:/var/www/html/
-         - ./php/nginx.conf:/etc/nginx/sites-enabled/default
-         - ./php/laravel.conf:/etc/supervisor/conf.d/laravel_worker.conf
-         - ./php/composer:/bin/composer
-         - ./php/php.ini:/etc/php/7.1/fpm/conf.d/php.ini
+            - ./app/:/var/www/html/
+            - ./php/nginx.conf:/etc/nginx/sites-enabled/default
+            - ./php/laravel.conf:/etc/supervisor/conf.d/laravel_worker.conf
+            - ./php/composer:/bin/composer
+            - ./php/php.ini:/etc/php/7.1/fpm/conf.d/php.ini
+        depends_on:
+            - mysql
+        networks:
+            - server
 
     mysql:
         image: mysql:latest
@@ -20,6 +24,8 @@ services:
             MYSQL_DATABASE: "${DB_NAME}"
             MYSQL_USER: "${DB_USER}"
             MYSQL_PASSWORD: "${DB_PASSWORD}"
+        networks:
+            - server
 
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
@@ -29,3 +35,11 @@ services:
             - mysql
         environment:
             PMA_HOST: mysql
+        networks:
+            - server
+
+networks:
+    server:
+
+volumes:
+    data:

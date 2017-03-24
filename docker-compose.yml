@@ -1,0 +1,31 @@
+version: '2'
+services:
+    compstech_api:
+        build: ./php/
+        ports:
+         - "80:80"
+        volumes:
+         - ./app/:/var/www/html/
+         - ./php/nginx.conf:/etc/nginx/sites-enabled/default
+         - ./php/laravel.conf:/etc/supervisor/conf.d/laravel_worker.conf
+         - ./php/composer:/bin/composer
+         - ./php/php.ini:/etc/php/7.1/fpm/conf.d/php.ini
+
+    mysql:
+        image: mysql:latest
+        volumes:
+            - ./data/:/var/lib/mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: "${DB_ROOT_PASSWORD}"
+            MYSQL_DATABASE: "${DB_NAME}"
+            MYSQL_USER: "${DB_USER}"
+            MYSQL_PASSWORD: "${DB_PASSWORD}"
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        ports:
+            - 8000:80
+        depends_on:
+            - mysql
+        environment:
+            PMA_HOST: mysql

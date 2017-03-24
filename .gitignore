@@ -1,0 +1,13 @@
+# Created by .ignore support plugin (hsz.mobi)
+### Laravel template
+app/vendor/
+app/node_modules/
+
+# Laravel 5 & Lumen specific
+app/storage
+app/*.key
+app/.env.*.php
+app/.env.php
+# app/.env
+
+.idea/

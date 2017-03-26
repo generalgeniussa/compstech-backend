@@ -11,13 +11,18 @@ class InternetCategoryController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except('API_index');
     }
 
     public function index()
     {
         $categories = InternetCategory::all();
         return view('internet-category.list', compact('categories'));
+    }
+
+    public function API_index() {
+        $categories = InternetCategory::with('subcategories.products')->get();
+        return $categories;
     }
 
     public function create()

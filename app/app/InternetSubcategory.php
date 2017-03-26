@@ -12,4 +12,9 @@ class InternetSubcategory extends Model
     {
         return $this->belongsTo('App\InternetCategory');
     }
+
+    public function products()
+    {
+        return $this->hasMany('App\InternetProduct');
+    }
 }

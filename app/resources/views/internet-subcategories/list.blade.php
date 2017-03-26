@@ -52,6 +52,10 @@
                                    class="btn btn-sm btn-primary">
                                     <i class="glyphicon glyphicon-pencil"></i> Edit
                                 </a>
+                                <a href="{{ route('internet-products:list', ['internetCategoryId' => $internetCategory->id, 'internetSubcategoryId' => $category->id ]) }}"
+                                   class="btn btn-sm btn-primary">
+                                    <i class="glyphicon glyphicon-shopping-cart"></i> Products
+                                </a>
                             </td>
                         </tr>
                     @empty

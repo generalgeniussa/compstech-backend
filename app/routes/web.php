@@ -33,4 +33,11 @@ Route::get('/internet-categories/{internetCategoryId}/subcategories/{internetSub
 Route::put('/internet-categories/{internetCategoryId}/subcategories/{internetSubcategoryId}', 'InternetSubcategoryController@update')->name('internet-subcategories:update');
 Route::delete('/internet-categories/{internetCategoryId}/subcategories/{internetSubcategoryId}', 'InternetSubcategoryController@delete')->name('internet-subcategories:delete');
 
+Route::get('/internet-categories/{internetCategoryId}/subcategories/{internetSubcategoryId}/products', 'InternetProductController@index')->name('internet-products:list');
+Route::get('/internet-categories/{internetCategoryId}/subcategories/{internetSubcategoryId}/products/create', 'InternetProductController@create')->name('internet-products:create');
+Route::post('/internet-categories/{internetCategoryId}/subcategories/{internetSubcategoryId}/products/create', 'InternetProductController@store')->name('internet-products:store');
+Route::get('/internet-categories/{internetCategoryId}/subcategories/{internetSubcategoryId}/products/{productId}', 'InternetProductController@edit')->name('internet-products:edit');
+Route::put('/internet-categories/{internetCategoryId}/subcategories/{internetSubcategoryId}/products/{productId}', 'InternetProductController@update')->name('internet-products:update');
+Route::delete('/internet-categories/{internetCategoryId}/subcategories/{internetSubcategoryId}/products/{productId}', 'InternetProductController@delete')->name('internet-products:delete');
+
 

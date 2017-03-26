@@ -11,3 +11,5 @@ app/.env.php
 # app/.env
 
 .idea/
+
+data/

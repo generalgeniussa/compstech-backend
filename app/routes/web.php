@@ -40,4 +40,5 @@ Route::get('/internet-categories/{internetCategoryId}/subcategories/{internetSub
 Route::put('/internet-categories/{internetCategoryId}/subcategories/{internetSubcategoryId}/products/{productId}', 'InternetProductController@update')->name('internet-products:update');
 Route::delete('/internet-categories/{internetCategoryId}/subcategories/{internetSubcategoryId}/products/{productId}', 'InternetProductController@delete')->name('internet-products:delete');
 
-
+Route::get('/products', 'InternetProductController@fullList')->name('internet-products:full-list');
+Route::post('/products', 'InternetProductController@fullListFilter')->name('internet-products:full-list-filter');

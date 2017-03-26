@@ -45,6 +45,7 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
                         &nbsp;<li><a href="{{ route('internet-categories:list') }}">Categories</a></li>
+                        &nbsp;<li><a href="{{ route('internet-products:full-list') }}">Products</a></li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->

@@ -38,10 +38,10 @@ class InternetProductController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|max:255',
-            'shortcode'  => 'required|max:255',
-            'description'  => 'required|',
-            'speed'  => 'required',
-            'price'  => 'required'
+            'shortcode' => 'required|max:255',
+            'description' => 'required|',
+            'speed' => 'required',
+            'price' => 'required'
         ]);
 
         $product = new InternetProduct($request->all());
@@ -66,13 +66,18 @@ class InternetProductController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|max:255',
-            'shortcode'  => 'required|max:255',
-            'description'  => 'required|',
-            'speed'  => 'required',
-            'price'  => 'required'
+            'shortcode' => 'required|max:255',
+            'description' => 'required|',
+            'speed' => 'required',
+            'price' => 'required'
         ]);
 
-        InternetProduct::find($internetProductId)->fill($request->all())->save();
+        $product = InternetProduct::find($internetProductId)->fill($request->all());
+
+        $product->capped = isset($request->capped);
+        $product->shaped = isset($request->shaped);
+
+        $product->save();
 
         $request->session()->flash('alert-success', 'Internet product updated');
         return redirect()->route('internet-products:list', ['internetCategoryId' => $internetCategoryId, 'internetSubcategoryId' => $internetSubcategoryId]);
@@ -84,6 +89,38 @@ class InternetProductController extends Controller
         $request->session()->flash('alert-success', 'Internet product deleted');
         return redirect()->route('internet-products:list', ['internetCategoryId' => $internetCategoryId, 'internetSubcategoryId' => $internetSubcategoryId]);
 
+    }
+
+    public function fullList(Request $request)
+    {
+        $allInternetSubcategories = InternetSubcategory::all();
+        $internetSubcategoryId = $request->internetSubcategoryId;
+        $search = $request->search;
+
+        $query = InternetProduct::select();
+
+        if (isset($request->internetSubcategoryId)) {
+            $query->where('internet_subcategory_id', $internetSubcategoryId);
+        }
+
+        if (isset($request->search)) {
+            $searchTerm = $request->search;
+            $searchableFields = collect(['name', 'shortcode']);
+            $query->where(function ($query) use ($searchableFields, $searchTerm) {
+                $searchableFields->each(function($field) use ($query, $searchTerm) {
+                    $query->orWhere($field, 'LIKE', '%' .$searchTerm . '%');
+                });
+            });
+        }
+
+        $products = $query->get();
+
+        return view('internet-products.full-list', compact('internetSubcategoryId', 'products', 'allInternetSubcategories', 'search'));
+    }
+
+    public function fullListFilter(Request $request)
+    {
+        return $this->fullList($request);
     }
 
 }
